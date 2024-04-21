@@ -9,15 +9,21 @@ namespace Factories
         private const string BulletPath = "Prefabs/UIPrefabs/Bullet";
         
         private readonly DiContainer _diContainer;
+        private readonly IEnviromentFactory _enviromentFactory;
 
-        public BulletFactory(DiContainer diContainer)
+        public BulletFactory(DiContainer diContainer, IEnviromentFactory enviromentFactory)
         {
             _diContainer = diContainer;
+            _enviromentFactory = enviromentFactory;
         }
-
-        public GameObject CreateBullet(GameObject parent)
+        
+        public GameObject CreateBullet(Vector3 initialPoint, Vector3 direction, int layer)
         {
-            return _diContainer.InstantiatePrefabResource(BulletPath, parent.transform);
+            GameObject bullet = _diContainer.InstantiatePrefabResource(BulletPath, _enviromentFactory.Background.transform);
+            bullet.transform.position = initialPoint;
+            bullet.GetComponent<BulletMover>().Direction = direction;
+            bullet.layer = layer;
+            return bullet;
         }
     }
 }

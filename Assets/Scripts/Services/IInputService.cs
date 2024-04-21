@@ -2,6 +2,6 @@
 
 public interface IInputService
 {
-    public event Action<int> OnMoveButton;
+    public event Action<float> OnMoveButton;
     public event Action OnShoot;
 }

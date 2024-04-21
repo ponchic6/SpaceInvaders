@@ -1,4 +1,5 @@
-﻿using Factories;
+﻿using Enemy;
+using Factories;
 using Services;
 using UnityEngine;
 using Zenject;
@@ -7,13 +8,42 @@ namespace Installers
 {
     public class MainInstaller : MonoInstaller
     {
+        [SerializeField] private StaticData _staticData;
+        
         public override void InstallBindings()
         {
             RegisterTickService();
+            RegisterStaticData();
             RegisterInputService();
-            RegisterBulletFactory();
             RegisterEnviromentFactory();
+            RegisterBulletFactory();
+            RegisterEnemyFactory();
+            RegisterLevelSwitcher();
             RegisterPlayerFactory();
+            RegisterEnemiesGroupMover();
+        }
+
+        private void RegisterEnemiesGroupMover()
+        {
+            EnemiesGroupMover enemiesGroupMover = Container.Instantiate<EnemiesGroupMover>();
+        }
+
+        private void RegisterLevelSwitcher()
+        {
+            ILevelSwitcher levelSwitcher = Container.Instantiate<LevelSwitcher>();
+            Container.Bind<ILevelSwitcher>().FromInstance(levelSwitcher).AsSingle();
+        }
+
+        private void RegisterStaticData()
+        {
+            Container.Bind<StaticData>().FromInstance(_staticData).AsSingle();
+        }
+
+        private void RegisterEnemyFactory()
+        {
+            EnemyFactory enemyFactory = Container.Instantiate<EnemyFactory>();
+            Container.Bind<IEnemyFactory>().FromInstance(enemyFactory).AsSingle();
+            Container.Bind<IEnemyFactoryReadOnly>().FromInstance(enemyFactory).AsSingle();
         }
 
         private void RegisterPlayerFactory()

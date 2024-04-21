@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Player
 {
-    public class Shooter : MonoBehaviour
+    public class PlayerShooter : MonoBehaviour
     {
         private IBulletFactory _bulletFactory;
         private IInputService _inputService;
@@ -24,8 +24,8 @@ namespace Player
 
         private void Shoot()
         {
-            GameObject bullet = _bulletFactory.CreateBullet(_enviromentFactory.Background);
-            bullet.transform.position = transform.position;
+            _bulletFactory
+                .CreateBullet(transform.position + Vector3.up * GetComponent<BoxCollider2D>().size.y / 2, Vector3.up, 0);
         }
     }
 }

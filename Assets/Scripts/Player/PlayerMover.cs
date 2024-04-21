@@ -7,7 +7,7 @@ namespace Player
     public class PlayerMover : MonoBehaviour
     {
         [SerializeField] private float _speedMultiplier;
-        private int _speed;
+        private float _speed;
         private Vector3 _direction;
         
         private IInputService _inputService;
@@ -21,7 +21,7 @@ namespace Player
             _direction = Vector3.right;
         }
 
-        private void SetSpeed(int speed)
+        private void SetSpeed(float speed)
         {
             _speed = speed;
         }
